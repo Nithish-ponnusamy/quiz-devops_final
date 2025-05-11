@@ -12,7 +12,7 @@ const Score = ({
 }) => {
   const submitScore = async () => {
     try {
-      const response = await fetch("http://localhost:3001/marks", {
+      const response = await fetch("http://10.101.36.162 /marks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: username, totalMarks: score }),
