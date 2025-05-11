@@ -1,0 +1,138 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Container for login form */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    opacity: 0;
+    animation: fadeIn 1s forwards 0.5s; /* Fade-in animation for the container */
+}
+
+/* Login form styling */
+.login-form {
+    background: linear-gradient(135deg, #6f42c1, #007bff);
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    width: 450px; /* Increased width */
+    max-width: 90%;
+    opacity: 0;
+    transform: translateY(30px); /* Start off-screen for slide effect */
+    animation: slideIn 1s forwards 1s; /* Slide-in animation for the form */
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 1.8rem; /* Increased heading size */
+    font-weight: bold;
+    text-align: center;
+    animation: fadeIn 1s ease-out forwards 1.5s; /* Fade-in for title */
+}
+
+/* Form input field styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+input.form-control {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 1s forwards 2s; /* Fade-in effect for input fields */
+}
+
+input.form-control:focus {
+    border-color: #83aedc;
+    outline: none;
+    box-shadow: 0 0 5px rgba(131, 176, 224, 0.5);
+    transform: scale(1.05); /* Slight scale effect on focus */
+}
+
+/* Error message styling */
+.error-message {
+    color: #d9534f;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+    animation: fadeIn 1s ease-out forwards 2.5s; /* Fade-in error message */
+}
+
+/* Button Styles */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 1s forwards 2.5s; /* Fade-in button */
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+.submit-btn:active {
+    background-color: #1e7e34;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 600px) {
+    .login-form {
+        width: 100%;
+        padding: 25px;
+    }
+    h2 {
+        font-size: 1.6rem;
+    }
+    .submit-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,73 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const PORT = 3001;
+
+app.use(bodyParser.json());
+
+let users = []; // In-memory storage
+
+app.post('/register', (req, res) => {
+  const { username, password } = req.body;
+  users.push({ username, password });
+  res.json({ message: 'User registered successfully' });
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const user = users.find(u => u.username === username && u.password === password);
+  if (user) {
+    res.json({ message: 'Login successful' });
+  } else {
+    res.status(401).json({ message: 'Invalid credentials' });
+  }
+});
+
+app.listen(PORT, () => console.log(`Login backend running on port ${PORT}`));const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const PORT = 3001;
+
+app.use(bodyParser.json());
+
+let users = []; // In-memory storage
+
+app.post('/register', (req, res) => {
+  const { username, password } = req.body;
+  users.push({ username, password });
+  res.json({ message: 'User registered successfully' });
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const user = users.find(u => u.username === username && u.password === password);
+  if (user) {
+    res.json({ message: 'Login successful' });
+  } else {
+    res.status(401).json({ message: 'Invalid credentials' });
+  }
+});
+
+app.listen(PORT, () => console.log(`Login backend running on port ${PORT}`));
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
