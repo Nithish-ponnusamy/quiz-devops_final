@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend-login
-          image: your-dockerhub-username/quiz-backend-login:latest
+          image: nithi1230/quiz-backend-login:latest
           ports:
             - containerPort: 3001
 
@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
         - name: backend-marks
-          image: your-dockerhub-username/quiz-backend-marks:latest
+          image: nithi1230/quiz-backend-marks:latest
           ports:
             - containerPort: 3002
 
@@ -85,7 +85,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: your-dockerhub-username/quiz-frontend:latest
+          image: nithi1230/quiz-frontend:latest
           ports:
             - containerPort: 80
 
