@@ -1,14 +1,13 @@
 # Build stage
-FROM node:18-alpine AS build
-
+FROM node:16 AS build
 WORKDIR /app
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json ./
 RUN npm install
-COPY . .
+COPY . ./
 RUN npm run build
 
 # Production stage
 FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html  # <-- This line copies the entire build folder
+COPY --from=build /app/build /usr/share/nginx/html  # <-- This line copies the build folder
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
