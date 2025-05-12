@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: quiz-frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: quiz-frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: quiz-frontend
     spec:
       containers:
         - name: frontend
