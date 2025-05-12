@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-marks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-marks
+  template:
+    metadata:
+      labels:
+        app: backend-marks
+    spec:
+      containers:
+        - name: backend-marks
+          image: nithi1230/quiz-backend-marks:latest
+          ports:
+            - containerPort: 3002
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: MONGO_URI
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: JWT_SECRET
