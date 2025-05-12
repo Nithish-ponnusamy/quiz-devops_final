@@ -85,14 +85,14 @@ const App = () => {
 
   const handleLogin = async (username, language) => {
     // Try to register the user first (optional, or you can have a separate registration)
-    await fetch("http://localhost:3001/register", {
+    await fetch("http://10.101.36.162/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, language }),
     });
 
     // Then try to login
-    const response = await fetch("http://localhost:3001/login", {
+    const response = await fetch("http://10.101.36.162/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, language }),
