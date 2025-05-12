@@ -4,7 +4,7 @@ metadata:
   name: frontend-service
 spec:
   selector:
-    app: frontend
+    app: quiz-frontend
   ports:
     - protocol: TCP
       port: 80
