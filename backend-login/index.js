@@ -2,22 +2,26 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
+
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 5000;  // ✅ default to 5000 for backend
 
 // Replace with your MongoDB Atlas connection string
 const MONGO_URI = 'mongodb+srv://nithinithish271:nithish1230@cluster0.cbw99.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-const JWT_SECRET='4953546c308be3088b28807c767bd35e99818434d130a588e5e6d90b6d1d326e';
+const JWT_SECRET = '4953546c308be3088b28807c767bd35e99818434d130a588e5e6d90b6d1d326e';
 
 mongoose
   .connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB Atlas connected!"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .then(() => console.log("✅ MongoDB Atlas connected!"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
+// ✅ Enable CORS for all origins (or specify frontend URL if needed)
 app.use(cors());
+
+// ✅ Parse incoming JSON requests
 app.use(bodyParser.json());
 
 // User Schema
@@ -42,6 +46,7 @@ app.post("/marks", async (req, res) => {
     await mark.save();
     res.json({ message: "Marks stored successfully" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Error storing marks" });
   }
 });
@@ -57,6 +62,7 @@ app.get("/marks/:id", async (req, res) => {
       res.status(404).json({ message: "Record not found" });
     }
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Error retrieving marks" });
   }
 });
@@ -69,6 +75,7 @@ app.post("/register", async (req, res) => {
     await user.save();
     res.json({ message: "User registered successfully" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Error registering user" });
   }
 });
@@ -84,8 +91,12 @@ app.post("/login", async (req, res) => {
       res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Error logging in" });
   }
 });
 
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+// ✅ Start server
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Backend running on port ${PORT}`);
+});
