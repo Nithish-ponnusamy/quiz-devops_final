@@ -4,12 +4,13 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
-const PORT = process.env.PORT || 5000;  // ✅ default to 5000 for backend
+const PORT = process.env.PORT || 5000;
 
-// Replace with your MongoDB Atlas connection string
+// ✅ MongoDB Atlas URI and JWT (not used in this example but mentioned)
 const MONGO_URI = 'mongodb+srv://nithinithish271:nithish1230@cluster0.cbw99.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const JWT_SECRET = '4953546c308be3088b28807c767bd35e99818434d130a588e5e6d90b6d1d326e';
 
+// ✅ Connect to MongoDB
 mongoose
   .connect(MONGO_URI, {
     useNewUrlParser: true,
@@ -18,71 +19,56 @@ mongoose
   .then(() => console.log("✅ MongoDB Atlas connected!"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// ✅ Enable CORS for all origins (or specify frontend URL if needed)
+// ✅ Middlewares
 app.use(cors());
-
-// ✅ Parse incoming JSON requests
 app.use(bodyParser.json());
 
-// User Schema
+// ✅ Debug incoming requests
+app.use((req, res, next) => {
+  console.log(`🔎 ${req.method} ${req.url} --`, req.body);
+  next();
+});
+
+// ✅ User Schema with validation
 const userSchema = new mongoose.Schema({
-  username: String,
-  language: String,
+  username: { type: String, required: true },
+  language: { type: String, required: true }
 });
 const User = mongoose.model("User", userSchema);
 
-// Marks Schema
+// ✅ Marks Schema with validation
 const marksSchema = new mongoose.Schema({
-  id: String,
-  totalMarks: Number,
+  id: { type: String, required: true },
+  totalMarks: { type: Number, required: true }
 });
 const Marks = mongoose.model("Marks", marksSchema);
 
-// Store marks
-app.post("/marks", async (req, res) => {
-  const { id, totalMarks } = req.body;
-  try {
-    const mark = new Marks({ id, totalMarks });
-    await mark.save();
-    res.json({ message: "Marks stored successfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error storing marks" });
-  }
-});
-
-// Get marks by id
-app.get("/marks/:id", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const record = await Marks.findOne({ id });
-    if (record) {
-      res.json(record);
-    } else {
-      res.status(404).json({ message: "Record not found" });
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Error retrieving marks" });
-  }
-});
-
-// Register user
+// ✅ Register User
 app.post("/register", async (req, res) => {
   const { username, language } = req.body;
+
+  if (!username || !language) {
+    return res.status(400).json({ message: "Username and language are required" });
+  }
+
   try {
     const user = new User({ username, language });
     await user.save();
     res.json({ message: "User registered successfully" });
   } catch (err) {
-    console.error(err);
+    console.error("Register error:", err);
     res.status(500).json({ message: "Error registering user" });
   }
 });
 
-// Login user
+// ✅ Login User
 app.post("/login", async (req, res) => {
   const { username, language } = req.body;
+
+  if (!username || !language) {
+    return res.status(400).json({ message: "Username and language are required" });
+  }
+
   try {
     const user = await User.findOne({ username, language });
     if (user) {
@@ -91,12 +77,47 @@ app.post("/login", async (req, res) => {
       res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (err) {
-    console.error(err);
+    console.error("Login error:", err);
     res.status(500).json({ message: "Error logging in" });
   }
 });
 
-// ✅ Start server
+// ✅ Store marks
+app.post("/marks", async (req, res) => {
+  const { id, totalMarks } = req.body;
+
+  if (!id || totalMarks === undefined) {
+    return res.status(400).json({ message: "ID and totalMarks are required" });
+  }
+
+  try {
+    const mark = new Marks({ id, totalMarks });
+    await mark.save();
+    res.json({ message: "Marks stored successfully" });
+  } catch (err) {
+    console.error("Store marks error:", err);
+    res.status(500).json({ message: "Error storing marks" });
+  }
+});
+
+// ✅ Get marks by ID
+app.get("/marks/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const record = await Marks.findOne({ id });
+    if (record) {
+      res.json(record);
+    } else {
+      res.status(404).json({ message: "Record not found" });
+    }
+  } catch (err) {
+    console.error("Get marks error:", err);
+    res.status(500).json({ message: "Error retrieving marks" });
+  }
+});
+
+// ✅ Start the server
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Backend running on port ${PORT}`);
 });
