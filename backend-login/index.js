@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ MongoDB Atlas URI and JWT (not used in this example but mentioned)
+// ✅ MongoDB Atlas URI and JWT (not used in this example but kept)
 const MONGO_URI = 'mongodb+srv://nithinithish271:nithish1230@cluster0.cbw99.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const JWT_SECRET = '4953546c308be3088b28807c767bd35e99818434d130a588e5e6d90b6d1d326e';
 
@@ -20,7 +20,11 @@ mongoose
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // ✅ Middlewares
-app.use(cors());
+app.use(cors({
+    origin: 'http://10.108.200.237:3000', // 🔧 Replace with your actual frontend IP and port
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
 app.use(bodyParser.json());
 
 // ✅ Debug incoming requests
@@ -29,14 +33,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// ✅ User Schema with validation
+// ✅ User Schema
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   language: { type: String, required: true }
 });
 const User = mongoose.model("User", userSchema);
 
-// ✅ Marks Schema with validation
+// ✅ Marks Schema
 const marksSchema = new mongoose.Schema({
   id: { type: String, required: true },
   totalMarks: { type: Number, required: true }
@@ -82,7 +86,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// ✅ Store marks
+// ✅ Store Marks
 app.post("/marks", async (req, res) => {
   const { id, totalMarks } = req.body;
 
@@ -100,7 +104,7 @@ app.post("/marks", async (req, res) => {
   }
 });
 
-// ✅ Get marks by ID
+// ✅ Get Marks by ID
 app.get("/marks/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -117,7 +121,7 @@ app.get("/marks/:id", async (req, res) => {
   }
 });
 
-// ✅ Start the server
+// ✅ Start the Server
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Backend running on port ${PORT}`);
 });
