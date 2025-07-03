@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set Docker image name, tag, and container name
-IMAGE_NAME="pavithranc/final"
+IMAGE_NAME="nithi1230/final"
 TAG="latest"
 CONTAINER_NAME="react-app"
 
