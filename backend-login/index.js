@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ MongoDB Atlas URI and JWT (kept for future use)
+// ✅ MongoDB Atlas URI and JWT
 const MONGO_URI = 'mongodb+srv://nithinithish271:nithish1230@cluster0.cbw99.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 const JWT_SECRET = '4953546c308be3088b28807c767bd35e99818434d130a588e5e6d90b6d1d326e';
 
@@ -19,26 +19,8 @@ mongoose
   .then(() => console.log("✅ MongoDB Atlas connected!"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// ✅ Middlewares
-
-// Allow listed frontend origins
-const allowedOrigins = [
-  'http://10.108.200.237:3000',  // Old frontend IP
-  'http://10.99.83.39:3000',     // New frontend IP (replace/add more if needed)
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS not allowed for this origin'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
-
+// ✅ Allow all origins temporarily for Kubernetes testing
+app.use(cors());
 app.use(bodyParser.json());
 
 // ✅ Debug incoming requests
