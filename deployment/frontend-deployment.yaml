@@ -17,3 +17,6 @@ spec:
           image: nithi1230/quiz-frontend:latest
           ports:
             - containerPort: 80
+          env:
+            - name: REACT_APP_API_URL
+              value: http://backend-login-service:3001
