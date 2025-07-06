@@ -7,8 +7,7 @@ spec:
     app: quiz-frontend
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: LoadBalancer
----
-REACT_APP_API_URL=http://backend-login-service:3001
+      port: 4000
+      targetPort: 4000
+      nodePort: 30080  # Example NodePort
+  type: NodePort
