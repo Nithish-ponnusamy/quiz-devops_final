@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: quiz-backend-login
+  name: quiz-backend-service
 spec:
   selector:
-    app: quiz-backend-login
+    app: quiz-backend
   ports:
     - protocol: TCP
       port: 5000
       targetPort: 5000
+      nodePort: 30081
   type: NodePort
